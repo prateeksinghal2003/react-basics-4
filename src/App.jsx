@@ -5,11 +5,13 @@ import Filter from "./Components/Filter";
 import Cards from "./Components/Cards";
 //import Spinner from "./Components/Spinner";
 import { apiUrl, filterData } from "./data.js";
-//import { toast } from "react-toastify";
-//import { useEffect, useState } from "react";
-import navbar from "./Components/navbar";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+//import navbar from "./Components/navbar";
+//import Navbar from "./Components/Navbar";
+import Navbar from "./Components/Navbar";
 
-function App() {
+ function App() {
 
 
   //--------------------------------lect -62--react-basics-4---Part-A ---start
@@ -89,19 +91,56 @@ function App() {
 
   return (
     <div>
-      <navbar/>
+      <Navbar/>
       <Filter  filterData={filterData}/>
       
 
-{/* This is a custom React component named Filter.
+  {/* This is a custom React component named Filter.
 It is being used inside another component, like App or a parent component.
 filterData={filterData}:
 
 filterData: This is a prop name. Props (short for properties) are used to pass data from a parent component to a child component.
-{filterData}: The value being passed as a prop. */}
-      <Cards/>
-    </div>
-  );
-}
+{filterData}: The value being passed as a prop.  */}
+//       <Cards/>
+//     </div>
+   );
+ }
 
-export default App;
+ export default App;
+
+
+// import React from "react";
+
+// const Filter = (props) => {
+//   // console.log(props);
+//   let category = props.category;
+//   let setCategory = props.setCategory;
+
+//   function filterHandler(title) {
+//     setCategory(title);
+//   }
+
+//   return (
+//     <div className="w-11/12 flex flex-wrap max-w-max space-x-4 mx-auto gap-y-4 py-4 justify-center">
+//       {props.filterData.map((data) => {
+//         return (
+//           <button
+//             className={`text-lg px-2 py-1 rounded-md font-medium text-white bg-black border-2 hover:bg-opacity-50 transition-all duration-200
+//               ${
+//                 category === data.title
+//                   ? "bg-opacity-60 border-white"
+//                   : "bg-opacity-40 border-transparent"
+//               }
+//             `}
+//             key={data.id}
+//             onClick={() => filterHandler(data.title)}
+//           >
+//             {data.title}
+//           </button>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+
+// export default Filter;
