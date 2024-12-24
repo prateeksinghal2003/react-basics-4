@@ -2,26 +2,51 @@
 
 import React from "react";
 import Card from "./Card";
+import { useState } from "react";
 
-const Cards=({courses})=>
+const Cards=({props})=>
 {
 
     //all courses data is stored in a single array
 
     // Object-->----(key,value)---{Development: Array(5), Business: Array(5), Design: Array(4), Lifestyle: Array(3)}
     // Object.values(courses)------->[Array1,Array2,Array3,Array4]
+     
+        let courses=props.courses;
+    
+        let category=props.category;
 
-    const getcourses=()=>
+        const [likedCourses, setLikedCourses] = useState([]);
+
+    function  getcourses()
     {
-        let allCourses = [];
-       
-        Object.values(courses).forEach((coursecategory) => {
-            coursecategory.forEach((course) => {
-                allCourses.push(course);
+        //const [likedCourses, setLikedCourses] = useState([]);
+        // The errors are happening because useState is being called inside a regular function (getcourses), 
+        // which violates the Rules of React Hooks. 
+        // Hooks like useState must be called inside a React component or a custom hook (a function starting with use).
+         let allCourses = [];
+
+        if(category === "All")
+        {
+            Object.values(courses).forEach((coursecategory) => {
+                coursecategory.forEach((course) => {
+                    allCourses.push(course);
+                });
             });
-        });
-        return allCourses;
+            return allCourses;
+        }
+
+        else
+        {
+            return  courses[category];
+            //courses main koi key hogi jiska naaam store hoga category main
+            //if i write couses.category =>iska matlab courses main ek key hain jiska naam "category hain"
+        }
+        
+       
     }
+
+    const allCourses = getcourses();
 
     {/* getcourses() is an array only */}
     return(
@@ -29,7 +54,7 @@ const Cards=({courses})=>
         {!courses ? (<div> <p>No data found</p> </div> ) : (getcourses().map((course)=>
             {
                 console.log(course);
-                <Card  key={course.id} course={course}/>
+                <Card  key={course.id} course={course} likedCourses={likedCourses} setLikedCourses={setLikedCourses}/>
             }
             )
            )

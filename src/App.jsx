@@ -134,7 +134,7 @@ import Navbar from "./Components/Navbar";
 
 const [courses, setCourses] = useState([]);
 const [loading, setLoading] = useState(true); //starting main loading =true 
-//const [category, setCategory] = useState([]);
+const [category, setCategory] = useState(filterData[0].title); //initialised to "all" category
 
     async function  fetchData()
     {
@@ -162,7 +162,7 @@ const [loading, setLoading] = useState(true); //starting main loading =true
   
   
   return (
-    <div  className="min-h-screen flex-col flex bg-bgDark2" >
+    <div  className="min-h-screen flex-col flex bg-blue-900" >
     
 
       <div>
@@ -173,8 +173,8 @@ const [loading, setLoading] = useState(true); //starting main loading =true
        <div>
           <Filter
             filterData={filterData}
-            //category={category}
-            //setCategory={setCategory}
+            category={category}
+            setCategory={setCategory}
           />
         </div>
       
@@ -186,11 +186,11 @@ const [loading, setLoading] = useState(true); //starting main loading =true
 // filterData: This is a prop name. Props (short for properties) are used to pass data from a parent component to a child component.
 // {filterData}: The value being passed as a prop.  */}
 
-{/*  (<Cards courses={courses} category={category} />)  */}
+
 
         <div className="w-11/12 max-w-[1200px] min-h-[50vh] mx-auto flex flex-wrap justify-center items-center">
           {
-            loading ? (<Spinner /> ) :(<Cards courses={courses} />)
+            loading ? (<Spinner /> ) :(<Cards courses={courses} category={category} />)
              
              
           }
