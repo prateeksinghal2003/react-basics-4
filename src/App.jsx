@@ -3,17 +3,17 @@ import "./App.css";
 
 import Filter from "./Components/Filter";
 import Cards from "./Components/Cards";
-//import Spinner from "./Components/Spinner";
+import Spinner from "./Components/Spinner";
 import { apiUrl, filterData } from "./data.js";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-//import navbar from "./Components/navbar";
-//import Navbar from "./Components/Navbar";
+
 import Navbar from "./Components/Navbar";
 
- function App() {
+  const App=()=>
+    {
 
-
+     
   //--------------------------------lect -62--react-basics-4---Part-A ---start
   //mount a component-->component is rendered
 
@@ -89,58 +89,187 @@ import Navbar from "./Components/Navbar";
  
   //--------------------lect-62-react-basics---4----->Part-B----->Start
 
+  
+
+//   The fetchData Function:
+
+// It’s an asynchronous function defined inside useEffect.
+// This function is responsible for fetching data from the apiUrl.
+// Fetching Data:
+
+// fetch(apiUrl): Sends a GET request to the API URL defined by apiUrl.
+// await res.json(): Converts the response (res) from JSON format to a JavaScript object.
+// console.log(data): Prints the data received from the API to the console (for debugging or verification).
+
+// const fetchData = async () => { ... }
+// This declares an asynchronous function fetchData using the async keyword.
+// An asynchronous function allows you to work with await inside its body, enabling asynchronous operations
+//  (e.g., fetching data from an API) to execute as if they were synchronous.
+// This makes the code easier to read and write, especially when dealing with asynchronous actions like network requests.
+// 2. const res = await fetch(apiUrl);
+// fetch(apiUrl) initiates a network request to the URL stored in apiUrl.
+// When we say "initiates a network request", it means that the JavaScript code sends a message (HTTP request) over the internet to a server specified by the URL stored in apiUrl. Here's a more detailed explanation:
+
+// What Happens During a Network Request?
+// Identify the Server:
+
+// The fetch(apiUrl) function uses the apiUrl string to identify the server's address (e.g., https://example.com/api/data).
+// This URL tells your browser where to send the request.
+// The fetch function returns a Promise that resolves to a Response object once the data is fetched.
+// Using await ensures that the code waits for the Promise to resolve before moving to the next line. This avoids dealing with .then() chains and makes the code cleaner.
+// 3. const output = await res.json();
+// res.json() parses the Response object into a usable JavaScript object. This also returns a Promise because the conversion is asynchronous.
+// Using await here ensures that the JSON parsing is completed before storing the result in output.
+
+// Flow:
+// Component renders.
+// useEffect is triggered.
+// fetchData runs:
+// Sends a request to the API.
+// Handles the response or any error.
+// If successful:
+// Logs the data in the console.
+// If there’s an error:
+// Shows a toast notification with the error message.
+
+const [courses, setCourses] = useState([]);
+const [loading, setLoading] = useState(true); //starting main loading =true 
+//const [category, setCategory] = useState([]);
+
+    async function  fetchData()
+    {
+      setLoading(true);
+      try{
+      const res = await fetch(apiUrl);
+      const output = await res.json(); 
+
+      //why data--->all content lies inside key "data"
+      setCourses(output.data);
+      //console.log(output);
+
+      }
+
+      catch(error)
+      {
+            toast.error("Something went wrong");
+      }
+      setLoading(false); //spinner not visible after data is fetched
+    }
+
+    useEffect(()=>
+      {fetchData()},[])
+        
+  
+  
   return (
-    <div>
-      <Navbar/>
-      <Filter  filterData={filterData}/>
+    <div  className="min-h-screen flex-col flex bg-bgDark2" >
+    
+
+      <div>
+        <Navbar />
+      </div>
+
+       <div className='bg-blue-900'>
+       <div>
+          <Filter
+            filterData={filterData}
+            //category={category}
+            //setCategory={setCategory}
+          />
+        </div>
       
 
-  {/* This is a custom React component named Filter.
-It is being used inside another component, like App or a parent component.
-filterData={filterData}:
+   {/* This is a custom React component named Filter.
+// It is being used inside another component, like App or a parent component.
+// filterData={filterData}:
 
-filterData: This is a prop name. Props (short for properties) are used to pass data from a parent component to a child component.
-{filterData}: The value being passed as a prop.  */}
-//       <Cards/>
-//     </div>
+// filterData: This is a prop name. Props (short for properties) are used to pass data from a parent component to a child component.
+// {filterData}: The value being passed as a prop.  */}
+
+{/*  (<Cards courses={courses} category={category} />)  */}
+
+        <div className="w-11/12 max-w-[1200px] min-h-[50vh] mx-auto flex flex-wrap justify-center items-center">
+          {
+            loading ? (<Spinner /> ) :(<Cards courses={courses} />)
+             
+             
+          }
+        </div>
+     </div>
+     </div>
    );
- }
+  }
 
  export default App;
 
 
+
+
 // import React from "react";
+// import Navbar from "./Components/Navbar";
+// import Filter from "./Components/Filter";
+// import Cards from "./Components/Cards";
+// //import Spinner from "./Components/Spinner";
+// import { apiUrl, filterData } from "./data.js";
+// import { toast } from "react-toastify";
+// import { useEffect, useState } from "react";
 
-// const Filter = (props) => {
-//   // console.log(props);
-//   let category = props.category;
-//   let setCategory = props.setCategory;
+// const App = () => {
+//   // const [courses, setCourses] = useState(null);
+//   const [courses, setCourses] = useState([]);
+//   //const [laoding, setLoading] = useState(true);
+//   const [category, setCategory] = useState([]);
 
-//   function filterHandler(title) {
-//     setCategory(title);
-//   }
+//   const fetchData = async () => {
+//     //setLoading(true);
+//     try {
+//       const res = await fetch(apiUrl);
+//       const output = await res.json();
+
+//       // Save data
+//       setCourses(output.data);
+//       // setCourses(output);
+//     } catch (err) {
+//       toast.error("Something Went Wrong");
+//     }
+//     //setLoading(false);
+//   };
+
+//   useEffect(() => {
+//     fetchData();
+//   }, []);
 
 //   return (
-//     <div className="w-11/12 flex flex-wrap max-w-max space-x-4 mx-auto gap-y-4 py-4 justify-center">
-//       {props.filterData.map((data) => {
-//         return (
-//           <button
-//             className={`text-lg px-2 py-1 rounded-md font-medium text-white bg-black border-2 hover:bg-opacity-50 transition-all duration-200
-//               ${
-//                 category === data.title
-//                   ? "bg-opacity-60 border-white"
-//                   : "bg-opacity-40 border-transparent"
-//               }
-//             `}
-//             key={data.id}
-//             onClick={() => filterHandler(data.title)}
-//           >
-//             {data.title}
-//           </button>
-//         );
-//       })}
+//     <div className="min-h-screen flex-col flex bg-bgDark2">
+//       <div>
+//         <Navbar />
+//       </div>
+
+//       <div className="bg-bgDark2">
+//         <div>
+//           <Filter
+//             filterData={filterData}
+//             category={category}
+//             setCategory={setCategory}
+//           />
+//         </div>
+
+//         <div className="w-11/12 max-w-[1200px] min-h-[50vh] mx-auto flex flex-wrap justify-center items-center">
+//           {/* {
+//             laoding ? (
+//               <Spinner />
+//             ) : (
+//               <Cards courses={courses} category={category} />
+//             )
+//           } */}
+
+//           {
+//             <Cards courses={courses} category={category} />
+//           }
+//         </div>
+//       </div>
 //     </div>
 //   );
 // };
 
-// export default Filter;
+// export default App;
